@@ -19,6 +19,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
+SECRET_KEY = 'dc71u*g@ncp9a2b&gop36dp*!g202mbm$8@&^z#^%xg&w^r86m'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
