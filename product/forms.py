@@ -38,7 +38,6 @@ class AddForm(forms.ModelForm):
             })}
 
 
-
             # 'point': TextInput(attrs={
             #     'class': 'form-control',
             #     'placeholder': 'Адреса доставки'
