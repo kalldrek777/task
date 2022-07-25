@@ -12,7 +12,6 @@ class AddForm(forms.ModelForm):
         a = 'dfsdf'
         widgets = {
             'type_product': TextInput(attrs={
-                'label': 'dfasdf',
                 'max-length': '29',
                 'class': 'form-control',
                 'placeholder': 'Тип товара',
@@ -38,9 +37,6 @@ class AddForm(forms.ModelForm):
                 'placeholder': 'Адреса доставки',
             })}
 
-        labels = {
-            'type_product': 'Тип товара',
-        }
 
 
             # 'point': TextInput(attrs={
