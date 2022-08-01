@@ -1,14 +1,29 @@
 from django import forms
 from product.models import Product
-from django.forms import TextInput, DateTimeInput, FileInput, JSONField, DateInput, Textarea
+from django.forms import TextInput, DateTimeInput, FileInput, JSONField, DateInput, Textarea, modelformset_factory, \
+    ModelForm, formset_factory
+import datetime
 from django.core.validators import ValidationError
 
 
-class AddForm(forms.ModelForm):
+class DayForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ('type_product', 'date_delivery', 'image', 'point', 'point_2')
+        fields = ('point',)
+        widgets = {
+            'point': TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Адреса доставки',
+            })
+        }
+
+
+class AddForm(ModelForm):
+
+    class Meta:
+        model = Product
+        fields = ('type_product', 'date_delivery', 'image', 'point_2')
         a = 'dfsdf'
         widgets = {
             'type_product': TextInput(attrs={
@@ -38,25 +53,6 @@ class AddForm(forms.ModelForm):
             })}
 
 
-            # 'point': TextInput(attrs={
-            #     'class': 'form-control',
-            #     'placeholder': 'Адреса доставки'
-            # })}
+# FormSet = modelformset_factory(Product, fields=('point',))
 
-
-        # type_product = forms.CharField(label="", max_length=50, widget=forms.TextInput(attrs={
-        #     'class': 'form-control',
-        #     'placeholder': 'Тип товара'
-        # }))
-        # date_delivery = forms.DateField(label="", widget=forms.DateInput(attrs={
-        #     'class': 'form-control',
-        #     'placeholder': 'Дата доставки'
-        # }))
-        # image = forms.ImageField(label="", widget=forms.FileInput(attrs={
-        #     'class': 'form-control',
-        #     'placeholder': 'Изображение продукта'
-        # }))
-        # point = forms.CharField(label="", max_length=50, widget=forms.TextInput(attrs={
-        #     'class': 'form-control',
-        #     'placeholder': 'Адреса доставки'
-        # }))
+FormSet = formset_factory(DayForm, extra=1,)

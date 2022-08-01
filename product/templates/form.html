@@ -2,11 +2,19 @@
     <div class="col-md-4">
     <form id="form" method="post" action="{{action}}"  enctype="multipart/form-data">{% csrf_token %}
         {{ form.as_p }}
+<!--        {{ form.management_form }}-->
+            {{ special_form.as_p }}
+<!--{% for form in special_form.forms %}-->
+<!--{{ form.as_p }}-->
+<!--{% endfor %}-->
+
+
 <!--        <input name="addresses[]" id="address" placeholder="Адреса доставки" class="form-control">-->
         <span>{{ error }}</span>
         <button id="btn" type="submit" class="btn btn-outline-primary">{{ button }}</button>
     </form>
     <br>
+<!--    <a type="button" href="add_adress/" method="POST" id="addNew" class="btn btn-outline-primary">Добавить адресс</a>-->
     <button id="addNew" class="btn btn-outline-primary">Добавить адресс</button>
 
 
@@ -17,32 +25,13 @@
 
     addNewBtn.onclick = function () {
         let div = document.createElement("div")
-        div.innerHTML = `<div style='height:50%; width:30%;'>{{ form.point }}</div>>`
+        div.innerHTML = `<div style='height:50%; width:30%;'>{{ special_form.as_p }}</div>>`
 
         form.append(div)
     }
 </script>
-<!--<input id="address" class='form-control' style='height:30px; width:30%;-->
 
-<!--<div class="row">-->
-<!--    <div class="col-md-4">-->
-<!--        <form id="form" action="{{action}}" method="post"> {% csrf_token %}-->
-<!--            {{ form.as_p }}-->
 
-<!--         <button id="btn" type="submit" class="btn btn-outline-primary">{{ button }}</button>-->
-<!--        </form>-->
-<!--<script>-->
-<!--    let form = document.getElementById("form")-->
-<!--    let input = document.getElementById("address")-->
-<!--    let addNewBtn = document.getElementById("addNew")-->
-
-<!--    addNewBtn.onclick = function () {-->
-<!--        let div = document.createElement("div")-->
-<!--        div.innerHTML = `<br><input id="address">`-->
-
-<!--        form.append(div)-->
-<!--    }-->
-<!--</script>-->
     </div>
 </div>
 <style>

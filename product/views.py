@@ -1,25 +1,19 @@
-import json
-
-from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.contrib import messages
-from django.views.generic import DeleteView, CreateView, ListView, DetailView
+from django.views.generic import DeleteView, CreateView, ListView, DetailView, FormView
+from django.views.generic.detail import SingleObjectMixin
 from product.models import Product
 from django.core.paginator import Paginator
-from product.forms import AddForm
+from product.forms import AddForm, DayForm, FormSet
 from django.core.validators import ValidationError
+from product.utils import *
 
 
-# Create your views here.
-
-
-class HomeView(ListView):
+class HomeView(DataMixin, ListView):
     paginate_by = 6
     model = Product
     template_name = 'home.html'
     ordering = '-date'
-    # success_url = reverse_lazy('home_page')
 
     def delete(request, id):
         product = Product.objects.get(id=id)
@@ -28,36 +22,36 @@ class HomeView(ListView):
         return redirect('home_page')
 
 
-    # def get_queryset(self):
-    #     qs = super().get_queryset()
-    #     for i in qs:
-    #         jojo = self.kwargs['type_product']
-    #         return qs
-
-    # def get_context_data(self, *, object_list=None, **kwargs):
-    #     data = super().get_context_data(**kwargs)
-    #     jojo = json.loads(data['point_2'])
-    #     return jojo
-
-
-
-class CreateView(SuccessMessageMixin, CreateView):
+class CreateView(DataMixin, CreateView):
     model = Product
-    form_class = AddForm
     template_name = 'add_product.html'
+    form_class = AddForm
     success_url = reverse_lazy('home_page')
 
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx['special_form'] = FormSet()
+        return ctx
+
     def form_valid(self, form):
-        error = ''
-        if self.request.method == 'POST':
-            new = form.save(commit=False)
-            if form.is_valid():
-                h = self.request.POST.getlist('point')
-                new.point_2 = h
-                new.point = None
-                # print(h)
-                new.save()
-            return super().form_valid(form)
+        special_form = FormSet(self.request.POST, self.request.FILES)
+        form2 = AddForm(self.request.POST, self.request.FILES)
+        if special_form.is_valid() and form2.is_valid():
+            new = form2.save(commit=False)
+            for f in special_form:
+                if f.cleaned_data.get('point') != None:
+                    tt = self.request.POST.getlist('form-0-point')
+                    new.point_2 = tt
+                    new.save()
+            return redirect('home_page')
+        else:
+            print('d')
+            return redirect("add_page")
+
+
+
+
+
 
 
 

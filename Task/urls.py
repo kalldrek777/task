@@ -25,7 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home_page'),
     path('add/', CreateView.as_view(), name='add_page'),
-    path('delete/<int:id>/', HomeView.delete),
+    path('delete/<int:id>', HomeView.delete),
+    # path('add/add_adress/', CreateView.add_adress),
 ]
 
 if settings.DEBUG:
